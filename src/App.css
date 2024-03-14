@@ -1,0 +1,71 @@
+
+.App {
+  text-align: center;
+  font-size: 16px;
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-image: url('./images/background_image.jpg');
+  background-size: cover;
+  background-position: relative;
+  background-attachment: fixed;
+}
+
+#Home {
+  display: flexbox;
+  align-items: center;
+  margin-top: 30px;
+  background-repeat: no-repeat;
+  background-image: url('./images/background_image.jpg');
+  background-size: cover;
+  background-position: relative;
+  background-attachment: fixed;
+  margin-bottom: 30px;
+}
+
+.blur{
+  backdrop-filter: blur(2px); /* Adjust the blur amount as needed */
+  /* color: white; */
+}
+
+.user_page{
+  margin-top: 10px;
+}
+
+#header-container
+{
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  /* color: white; */
+  font-Family: "monospace";
+  text-align: center;
+  font-size: 100px;
+  padding: 0.7%;
+  margin-bottom: 0.5%;
+  margin-top: 2%;
+  color: black;
+  font-weight:900;
+  /* margin-left:3%;
+  margin-right:3%; */
+  /* border-top: 1px;
+  border-top-style: solid;
+  border-color: black; */
+}
+
+
+#contact-container
+{
+  margin-top: 5%;
+}
+
+#skills-container
+{
+  /* height: 50vh; */
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.875);
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 5%;
+
+}
