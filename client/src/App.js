@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
 import './App.css';
-import NavBar from './components/NavBar';
 import Home from "./components/Home";
 import ResponsiveAppBar from './components/NavBar';
 import Dashboard from './components/Dashboard';
-import Excercises from './components/Excercises';
+import Exercises from './components/Exercises';
 import User from "./components/User";
 import Contact from './components/Contact';
 
@@ -45,12 +45,13 @@ function App() {
       <ThemeProvider theme ={theme}>
 
       <ResponsiveAppBar/>
+      <Toolbar /> {/* spacer so content starts below the fixed AppBar */}
       
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/Dashboard" element={<Dashboard/>} />
         <Route path="/User" element={<User/>} />
-        <Route path="/Excercises" element={<Excercises/>} />
+        <Route path="/Exercises" element={<Exercises/>} />
         <Route path="/Contact" element={<Contact/>} />
       </Routes>
 

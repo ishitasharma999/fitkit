@@ -9,7 +9,7 @@ const Skills = () => {
         <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
       <SkillCard
-        title="Excercise"
+        title="Exercise"
         description="Capture your fitness journey with our intuitive Exercise Log! Record each workout session, track your progress, and celebrate your achievements. Whether it's lifting weights, running miles, or mastering yoga poses, use our Exercise Log to track your progress over time and log your efforts and stay motivated on your path to a healthier you."
         image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6fVYnIdhHiGxT2MSSDGh3LOG5u6cX1ECyEQ&usqp=CAU"
       /> </Grid>

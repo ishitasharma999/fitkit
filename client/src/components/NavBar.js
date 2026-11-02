@@ -100,10 +100,10 @@ function ResponsiveAppBar() {
                     USER 
                   </Typography>
                   <Typography textAlign="center">
-                    EXCERCISES   
+                    EXERCISES   
                   </Typography>
                   <Typography textAlign="center">
-                    EXCERCISES   
+                    EXERCISES   
                   </Typography>
                   
                 </MenuItem>
@@ -148,7 +148,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link style={{textDecoration:"none", color:"white"}} to={'/Excercises'}>EXCERCISES</Link>
+                <Link style={{textDecoration:"none", color:"white"}} to={'/Exercises'}>EXERCISES</Link>
               </Button>
           </Box>
          
@@ -186,7 +186,7 @@ function ResponsiveAppBar() {
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
-                  <Link style={{textDecoration:"none", color:"black"}} to={'/Excercises'}>Excercises</Link>
+                  <Link style={{textDecoration:"none", color:"black"}} to={'/Exercises'}>Exercises</Link>
                   </Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>

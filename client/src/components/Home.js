@@ -1,9 +1,7 @@
 import React from 'react'
 import { Typography } from '@mui/material'
 import {Button} from '@mui/material'
-import { ThemeProvider } from '@mui/material'
 import Header from './Header'
-import Contact from './Contact'
 import Skills from './Skills'
 
 
@@ -27,11 +25,11 @@ function Home() {
 
       </Typography >
       <Button variant="contained" size="large"  color="secondary"
-     component="a" href="/Excercises" 
+     component="a" href="/Exercises" 
       >
         Record Activity
       </Button>
-      <Typography variant="body2" color="secondary" marginTop={3} variant="h5" >
+      <Typography color="secondary" marginTop={3} variant="h5" >
         START NOW!!
       </Typography>
 

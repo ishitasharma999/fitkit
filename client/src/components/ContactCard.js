@@ -1,14 +1,12 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import EmailIcon from "@mui/icons-material/Email";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import ArticleIcon from "@mui/icons-material/Article";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 const scrollToTop = () => {
   window.scrollTo({

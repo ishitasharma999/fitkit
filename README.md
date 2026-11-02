@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# Fitkit
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A small MERN fitness tracker: create users, record their workouts, and see everything on one dashboard.
 
-## Available Scripts
+> **Provenance.** Fitkit was my Back End Engineering course project at Chitkara University (Sem 5, Nov 2023 – Jan 2024).
+> The frontend was committed to GitHub in March 2024; the backend only ever lived on my laptop.
+> In November 2026 I brought the two halves together, wired the UI to the API, fixed the security and
+> data-freshness problems described below, and pushed it so the project actually runs from a clone.
+> It is a college project made presentable, not a reflection of how I build things at work today.
 
-In the project directory, you can run:
+![Dashboard](docs/screenshots/dashboard.png)
 
-### `npm start`
+## Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Layer | Tech |
+|---|---|
+| Frontend | React 18, React Router 6, MUI 5, Axios (Create React App) |
+| Backend | Node.js, Express 4, express-validator, bcryptjs |
+| Database | MongoDB (Atlas or local) via Mongoose 8 |
+| CI | GitHub Actions – client build + API smoke test |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- Create a user with server-side validation (username ≥ 3 chars, valid email, password ≥ 5 chars); duplicate usernames are rejected with a 409.
+- Record an activity (type, duration, date) against an existing user — the API refuses records for users that don't exist.
+- Dashboard lists every record newest-first with a running total, and deletes a record in place.
+- Every form shows the API's actual validation messages instead of failing silently.
+- `npm run smoke` drives the whole API flow end to end (health → create user → duplicate → validation → record → list → delete).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Screenshots
 
-### `npm run build`
+| Create user | Record activity |
+|---|---|
+| ![Create user](docs/screenshots/create-user.png) | ![Record activity](docs/screenshots/record-activity.png) |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Run it locally
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+You need Node 18+ and a MongoDB connection string (a free Atlas cluster or a local `mongod`).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone https://github.com/ishitasharma999/fitkit.git
+cd fitkit
 
-### `npm run eject`
+# 1. API
+cd server
+cp .env.example .env        # then put your MONGO_URI in .env
+npm install
+npm run dev                 # http://localhost:5000
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# 2. Client (new terminal)
+cd client
+cp .env.example .env        # REACT_APP_API_URL defaults to http://localhost:5000
+npm install
+npm start                   # http://localhost:3000
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`.env` files are gitignored. The CI workflow reads the connection string from a `MONGO_URI` repository secret instead.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### API
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Method | Path | What it does |
+|---|---|---|
+| `GET` | `/api/health` | liveness check |
+| `GET` | `/api/users` | list usernames |
+| `POST` | `/api/users` | create user `{username, email, password}` |
+| `GET` | `/api/exercises` | all records, newest first |
+| `POST` | `/api/exercises` | create record `{username, activity, duration, date}` |
+| `DELETE` | `/api/exercises/:id` | delete a record |
 
-## Learn More
+Errors always come back as `{ "errors": ["message", ...] }` with a 400/404/409/500 status, so the client has one code path for showing them.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## A design decision, and the bug behind it
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The original backend read the entire `exercises` collection into a global variable **once, at startup**, and
+`GET /exercises` returned that variable. It looked like a cache; in practice it meant a record you had just
+added didn't show up until the server restarted, which is exactly the bug I kept hitting in demos and
+blaming on the frontend.
 
-### Code Splitting
+The fix was to delete the cache and let each request query Mongo (`Exercise.find().sort({ date: -1 })`).
+For a dataset this size an indexed query costs nothing, and correctness beats a premature optimisation
+that was never measured. If the list ever did get slow the right tools are pagination and a `date` index,
+not an in-memory copy that silently goes stale. The same pass replaced plaintext passwords with bcrypt
+hashes, moved the connection string out of source and into `.env`, and gave every route a single
+`{ errors: [...] }` error shape so the UI could show real messages.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## What I'd do next
 
-### Analyzing the Bundle Size
+- Login + JWT so a user only sees and edits their own records (the schema already stores a password hash).
+- Store `userId` on records instead of `username`, so renaming a user doesn't orphan their history.
+- Replace the hotlinked feature images on the home page with assets in the repo.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT

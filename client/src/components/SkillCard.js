@@ -18,9 +18,9 @@ export default function SkillCard(props) {
           {props.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          <p class="experience-description text-justify">
+          <span className="experience-description text-justify">
             {props.description}
-          </p>
+          </span>
         </Typography>
       </CardContent>
     </Card>
