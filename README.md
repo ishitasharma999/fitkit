@@ -8,6 +8,14 @@ A small MERN fitness tracker: create users, record their workouts, and see every
 > data-freshness problems described below, and pushed it so the project actually runs from a clone.
 > It is a college project made presentable, not a reflection of how I build things at work today.
 
+## Live demo
+
+**https://fitkit-psi.vercel.app**
+
+Frontend on Vercel, API on Render (free tier), database on MongoDB Atlas (free tier).
+The API sleeps after 15 minutes idle, so the first request after a quiet spell can take
+30-60 seconds while it wakes - the dashboard shows "Loading..." until then.
+
 ![Dashboard](docs/screenshots/dashboard.png)
 
 ## Stack
@@ -82,6 +90,7 @@ that was never measured. If the list ever did get slow the right tools are pagin
 not an in-memory copy that silently goes stale. The same pass replaced plaintext passwords with bcrypt
 hashes, moved the connection string out of source and into `.env`, and gave every route a single
 `{ errors: [...] }` error shape so the UI could show real messages.
+
 
 ## What I'd do next
 
